@@ -60,7 +60,7 @@ namespace ge
             bind_key{ SDLK_LEFT, keys::left, "left" },
             bind_key{ SDLK_RIGHT, keys::right, "right" },
             bind_key{ SDLK_SPACE, keys::pause, "pause" },
-            bind_key{ SDLK_p, keys::select, "select" },
+            bind_key{ SDLK_ESCAPE, keys::select, "select" },
             bind_key{ SDLK_a, keys::button1, "button1" },
             bind_key{ SDLK_d, keys::button2, "button2" }
         };
@@ -177,6 +177,7 @@ namespace ge
 
     bool Engine::read_event(event& e)
     {
+        e             = event();
         bool hasEvent = false;
         std::string event_msg;
         SDL_Event sdl_event;
@@ -187,7 +188,6 @@ namespace ge
             bind_event* bind_e = check_event(sdl_event.type);
             if (bind_e == nullptr)
             {
-                e = event();
                 return hasEvent;
             }
 
@@ -205,7 +205,6 @@ namespace ge
                     bind_k = check_input(sdl_event.key.keysym.sym);
                     if (bind_k == nullptr)
                     {
-                        e = event();
                         return hasEvent;
                     }
                     sstr << bind_k->key_str << "_" << bind_e->event_str;
@@ -214,7 +213,6 @@ namespace ge
                     e.key  = bind_k->key;
                     break;
                 default:
-                    e = event();
                     break;
             }
         }
